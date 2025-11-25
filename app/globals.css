@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark mode color palette - rich greys, slates, charcoals (darkened by ~8%) */
+    --background: 220 13% 7%; /* Dark slate - darkened */
+    --foreground: 0 0% 98%;
+    --card: 220 10% 11%; /* Slightly lighter slate - darkened */
+    --card-foreground: 0 0% 98%;
+    --popover: 220 10% 11%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 180 100% 50%; /* Neon teal */
+    --primary-foreground: 220 13% 7%;
+    --secondary: 270 91% 65%; /* Purple */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 8% 16%; /* Dark grey - darkened */
+    --muted-foreground: 0 0% 65%;
+    --accent: 330 81% 60%; /* Pink */
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 10% 18%; /* Subtle border - darkened */
+    --input: 220 10% 18%;
+    --ring: 180 100% 50%;
+    --radius: 0.5rem;
+    
+    --font-display: 'Inter Tight', sans-serif;
+    --font-ui: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  
+  /* Date and time picker icons - make them visible on dark backgrounds */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(2);
+    cursor: pointer;
+  }
+  
+  /* Firefox */
+  input[type="date"]::-moz-calendar-picker-indicator,
+  input[type="time"]::-moz-calendar-picker-indicator {
+    filter: invert(1) brightness(2);
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Geometric background patterns - base patterns */
+  .pattern-grid {
+    background-image: 
+      linear-gradient(to right, hsl(var(--border) / 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .pattern-dots {
+    background-image: radial-gradient(circle, hsl(var(--border) / 0.12) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .pattern-diagonal {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      hsl(var(--border) / 0.04) 10px,
+      hsl(var(--border) / 0.04) 20px
+    );
+  }
+
+  /* Purple-accented geometric patterns */
+  .pattern-purple-grid {
+    background-image: 
+      linear-gradient(to right, hsl(270 91% 65% / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(270 91% 65% / 0.06) 1px, transparent 1px),
+      linear-gradient(to right, hsl(var(--border) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.05) 1px, transparent 1px);
+    background-size: 60px 60px, 60px 60px, 20px 20px, 20px 20px;
+  }
+
+  .pattern-purple-dots {
+    background-image: 
+      radial-gradient(circle, hsl(270 91% 65% / 0.08) 1.5px, transparent 1.5px),
+      radial-gradient(circle, hsl(270 50% 40% / 0.05) 1px, transparent 1px);
+    background-size: 32px 32px, 16px 16px;
+    background-position: 0 0, 16px 16px;
+  }
+
+  .pattern-purple-waves {
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        hsl(270 91% 65% / 0.04) 2px,
+        hsl(270 91% 65% / 0.04) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        hsl(270 50% 40% / 0.03) 2px,
+        hsl(270 50% 40% / 0.03) 4px
+      );
+    background-size: 100% 40px, 40px 100%;
+  }
+
+  .pattern-purple-circles {
+    background-image: 
+      radial-gradient(circle at 50% 50%, transparent 20%, hsl(270 91% 65% / 0.03) 20%, hsl(270 91% 65% / 0.03) 21%, transparent 21%),
+      radial-gradient(circle at 50% 50%, transparent 40%, hsl(270 50% 40% / 0.02) 40%, hsl(270 50% 40% / 0.02) 41%, transparent 41%);
+    background-size: 120px 120px, 200px 200px;
+  }
+
+  .pattern-purple-mesh {
+    background-image: 
+      linear-gradient(45deg, hsl(270 91% 65% / 0.04) 25%, transparent 25%),
+      linear-gradient(-45deg, hsl(270 91% 65% / 0.04) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, hsl(270 50% 40% / 0.03) 75%),
+      linear-gradient(-45deg, transparent 75%, hsl(270 50% 40% / 0.03) 75%);
+    background-size: 60px 60px;
+    background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+  }
+
+  .pattern-purple-diagonal {
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        hsl(270 91% 65% / 0.03) 8px,
+        hsl(270 91% 65% / 0.03) 10px,
+        transparent 10px,
+        transparent 18px,
+        hsl(270 50% 40% / 0.02) 18px,
+        hsl(270 50% 40% / 0.02) 20px
+      );
+  }
+
+  .pattern-purple-hexagon {
+    background-image: 
+      linear-gradient(30deg, hsl(270 91% 65% / 0.04) 12%, transparent 12.5%, transparent 87%, hsl(270 91% 65% / 0.04) 87.5%),
+      linear-gradient(150deg, hsl(270 50% 40% / 0.03) 12%, transparent 12.5%, transparent 87%, hsl(270 50% 40% / 0.03) 87.5%),
+      linear-gradient(30deg, hsl(var(--border) / 0.05) 12%, transparent 12.5%, transparent 87%, hsl(var(--border) / 0.05) 87.5%);
+    background-size: 80px 140px, 80px 140px, 40px 70px;
+    background-position: 0 0, 0 0, 40px 70px;
+  }
+
+  .pattern-purple-radial {
+    background-image: 
+      radial-gradient(ellipse at top, hsl(270 91% 65% / 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, hsl(270 50% 40% / 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom left, hsl(270 91% 65% / 0.03) 0%, transparent 50%);
+    background-size: 100% 100%, 60% 60%, 60% 60%;
+    background-position: 0 0, 100% 100%, 0 100%;
+  }
+
+  /* Accent glow effects */
+  .glow-purple {
+    box-shadow: 0 0 20px hsl(270 91% 65% / 0.3);
+  }
+
+  .glow-teal {
+    box-shadow: 0 0 20px hsl(180 100% 50% / 0.3);
+  }
+}
+
