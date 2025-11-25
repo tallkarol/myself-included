@@ -121,7 +121,7 @@ export default function Footer() {
                     className="hover:scale-110 transition-transform"
                     aria-label={link.name}
                   >
-                    <IconComponent size={24} style={{ color: link.color }} />
+                    <IconComponent size={30} style={{ color: link.color }} />
                   </a>
                 );
               })}

@@ -4,12 +4,34 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { FaInstagram, FaSoundcloud, FaSpotify } from "react-icons/fa";
 
 const navItems = [
   { href: "/music", label: "Music" },
   { href: "/tour", label: "Tour" },
   // { href: "/store", label: "Store" },
   { href: "/contact", label: "Contact" },
+];
+
+const socialLinks = [
+  { 
+    name: "Instagram", 
+    href: "https://www.instagram.com/myselfincludedmusic", 
+    icon: FaInstagram,
+    color: "#E4405F"
+  },
+  { 
+    name: "SoundCloud", 
+    href: "https://soundcloud.com/myself-included", 
+    icon: FaSoundcloud,
+    color: "#FF5500"
+  },
+  { 
+    name: "Spotify", 
+    href: "https://open.spotify.com/artist/09K1NtNYl5AQDMNA5pTgJ5", 
+    icon: FaSpotify,
+    color: "#1DB954"
+  },
 ];
 
 export default function Header() {
@@ -145,6 +167,29 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
+              
+              {/* Divider */}
+              <div className="w-full h-px bg-white/30"></div>
+              
+              {/* Social Links */}
+              <div className="flex justify-center gap-6 pt-2">
+                {socialLinks.map((link) => {
+                  const IconComponent = link.icon;
+                  return (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:scale-110 transition-transform"
+                      aria-label={link.name}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <IconComponent size={35} style={{ color: link.color }} />
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </nav>
         </>
