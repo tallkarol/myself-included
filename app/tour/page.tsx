@@ -23,17 +23,8 @@ async function getEvents() {
   } catch (error) {
     console.error("Failed to fetch events:", error);
   }
-  // Fallback to default event
-  return [
-    {
-      id: "1",
-      date: "December 21, 2024",
-      venue: "Festivus Music Festival",
-      location: "Ohio",
-      city: "Ohio",
-      ticketLink: "#",
-    },
-  ];
+  // Return empty array if fetch fails
+  return [];
 }
 
 export default async function TourPage() {
