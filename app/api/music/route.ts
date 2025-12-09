@@ -87,21 +87,21 @@ async function getMusic() {
     const data = await readFile(MUSIC_FILE, "utf-8");
     const music = JSON.parse(data);
     
+    // Ensure arrays exist
+    if (!music.fullSets) music.fullSets = [];
+    if (!music.otherReleases) music.otherReleases = [];
+    
     // Ensure all releases have order fields (backward compatibility)
-    if (music.fullSets) {
-      music.fullSets.forEach((r: any, index: number) => {
-        if (r.order === undefined) {
-          r.order = index;
-        }
-      });
-    }
-    if (music.otherReleases) {
-      music.otherReleases.forEach((r: any, index: number) => {
-        if (r.order === undefined) {
-          r.order = index;
-        }
-      });
-    }
+    music.fullSets.forEach((r: any, index: number) => {
+      if (r.order === undefined) {
+        r.order = index;
+      }
+    });
+    music.otherReleases.forEach((r: any, index: number) => {
+      if (r.order === undefined) {
+        r.order = index;
+      }
+    });
     
     return music;
   } catch (error) {
@@ -150,6 +150,19 @@ export async function POST(request: Request) {
     }
 
     if (action === "add") {
+      // Validate required fields
+      if (!release || !release.title || !release.url) {
+        return NextResponse.json({ error: "Title and URL are required" }, { status: 400 });
+      }
+      
+      if (!category || (category !== "fullSets" && category !== "otherReleases")) {
+        return NextResponse.json({ error: "Invalid category. Must be 'fullSets' or 'otherReleases'" }, { status: 400 });
+      }
+      
+      // Ensure arrays exist
+      if (!music.fullSets) music.fullSets = [];
+      if (!music.otherReleases) music.otherReleases = [];
+      
       const categoryArray = category === "fullSets" ? music.fullSets : music.otherReleases;
       const maxOrder = categoryArray.length > 0 
         ? Math.max(...categoryArray.map((r: any) => r.order ?? 0))
@@ -158,15 +171,14 @@ export async function POST(request: Request) {
       const newRelease = {
         id: Date.now().toString(),
         order: maxOrder + 1,
-        ...release,
+        title: release.title,
+        url: release.url,
       };
       
       if (category === "fullSets") {
         music.fullSets.push(newRelease);
-      } else if (category === "otherReleases") {
-        music.otherReleases.push(newRelease);
       } else {
-        return NextResponse.json({ error: "Invalid category" }, { status: 400 });
+        music.otherReleases.push(newRelease);
       }
       
       await saveMusic(music);
@@ -231,7 +243,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to process request" }, { status: 500 });
+    console.error("Music API error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Failed to process request";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 

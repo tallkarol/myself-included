@@ -182,10 +182,12 @@ export default function AdminPage() {
         await fetchMusic();
         setNewRelease({ title: "", url: "" });
       } else {
-        alert("Failed to add release");
+        const errorData = await response.json().catch(() => ({ error: "Failed to add release" }));
+        alert(`Failed to add release: ${errorData.error || "Unknown error"}`);
       }
     } catch (error) {
-      alert("Error adding release");
+      console.error("Error adding release:", error);
+      alert(`Error adding release: ${error instanceof Error ? error.message : "Unknown error"}`);
     } finally {
       setLoading(false);
     }
